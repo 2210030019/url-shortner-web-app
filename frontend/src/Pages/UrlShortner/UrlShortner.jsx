@@ -38,9 +38,10 @@ const UrlShortner = () => {
 
       <h1 style={{fontWeight:'lighter', fontSize:"50px", margin:"20px", textShadow:"2px 2px 10px gray"}}>Shorten Your URL here</h1>
       <>
+      {shortURL}
       {shortURL && shortURL.length > 0 && <TextInput value={shortURL} rightSection={
           <Button variant='outline' onClick={() => clipboard.copy(shortURL)}>
-            {clipboard.copied ? <IconCheck size={16}/> : <IconCopy size={16}/>}
+            {clipboard.copied ? <IconCheck color='black' size={16}/> : <IconCopy color='black' size={16}/>}
           </Button>
       }/>}
 
