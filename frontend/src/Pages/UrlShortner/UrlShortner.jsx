@@ -3,6 +3,8 @@ import React, {useState} from 'react'
 import { useMutation } from '@tanstack/react-query'
 import Service from '../../utils/http'
 import { SHORTEN_URL } from '../../utils/urls'
+import { useClipboard } from '@mantine/hooks'
+import { IconCheck, IconCopy } from '@tabler/icons-react'
 
 const UrlShortner = () => {
     const [title, setTitle] = useState("")
@@ -11,6 +13,7 @@ const UrlShortner = () => {
     const [shortURL, setShortURL] = useState("")
 
     const service = new Service()
+    const clipboard = useClipboard({ timeout: 500 })
 
     const sendData = async () => {
         const response=service.post(SHORTEN_URL,{originalUrl:originalURL, expiresat:Date, title:title})
@@ -35,6 +38,12 @@ const UrlShortner = () => {
 
       <h1 style={{fontWeight:'lighter', fontSize:"50px", margin:"20px", textShadow:"2px 2px 10px gray"}}>Shorten Your URL here</h1>
       <>
+      {shortURL && shortURL.length > 0 && <TextInput value={shortURL} rightSection={
+          <Button variant='outline' onClick={() => clipboard.copy(shortURL)}>
+            {clipboard.copied ? <IconCheck size={16}/> : <IconCopy size={16}/>}
+          </Button>
+      }/>}
+
       <TextInput  onChange={handleTitleChange} value={title} type="text" label="Title" placeholder='Enter the Title' labelProps={{style:{fontWeight:'bold', width:400}}} mb={20}/>
 
       <TextInput  onChange={handleOriginalURLChange} value={originalURL} type="text" label="OriginalURL" placeholder='Enter the Original URL' labelProps={{style:{fontWeight:'bold', width:400}}} mb={20}/>
